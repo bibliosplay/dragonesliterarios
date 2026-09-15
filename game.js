@@ -1,12 +1,10 @@
 "use strict";
 
 /* ==========================================================================
-   DRAGONES LITERARIOS — motor del juego de trivia
-   Los datos (niveles, dragones, preguntas) viven en preguntas.json.
-   Añadir un nuevo dragón o preguntas NO requiere tocar este archivo.
+   DRAGONES LITERARIOS — motor del juego de trivia (v2.0)
+   Mejoras: barajado aleatorio de opciones, animaciones de daño, sonidos.
    ========================================================================== */
 
-// ---- datos de respaldo por si preguntas.json no carga (file:// en algunos navegadores) ----
 const FALLBACK_DATA = {
   niveles: [
     {
@@ -20,18 +18,17 @@ const FALLBACK_DATA = {
   ]
 };
 
-// ---------------------------------------------------------------------------
-// estado global
-// ---------------------------------------------------------------------------
 const state = {
   data: null,
   nivelActual: 0,
   escamas: 3,
   pergaminos: 3,
   preguntaActual: null,
-  preguntasUsadas: [], // índices de preguntas ya hechas en este nivel
+  opcionesBarajadas: [],
+  indiceCorrectoBarajado: -1,
+  preguntasUsadas: [],
   respondiendo: false,
-  victoriaTotal: false
+  sonidoActivo: true
 };
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -39,7 +36,47 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
 
 // ---------------------------------------------------------------------------
-// carga de datos
+// Audio (generado con Web Audio API, sin archivos externos)
+// ---------------------------------------------------------------------------
+let audioCtx = null;
+function playSound(type) {
+  if (!state.sonidoActivo) return;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    const now = audioCtx.currentTime;
+
+    if (type === "acierto") {
+      osc.type = "square";
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.exponentialRampToValueAtTime(880, now + 0.15);
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+      osc.start(now); osc.stop(now + 0.3);
+    } else if (type === "fallo") {
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(200, now);
+      osc.frequency.exponentialRampToValueAtTime(80, now + 0.25);
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+      osc.start(now); osc.stop(now + 0.35);
+    } else if (type === "victoria") {
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(523, now);
+      osc.frequency.setValueAtTime(659, now + 0.15);
+      osc.frequency.setValueAtTime(784, now + 0.3);
+      gain.gain.setValueAtTime(0.1, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+      osc.start(now); osc.stop(now + 0.6);
+    }
+  } catch (e) { /* silencio si falla audio */ }
+}
+
+// ---------------------------------------------------------------------------
+// Carga de datos
 // ---------------------------------------------------------------------------
 async function loadData() {
   try {
@@ -54,20 +91,25 @@ async function loadData() {
   }
 }
 
-function nivelActual() {
-  return state.data.niveles[state.nivelActual];
-}
-
-function totalNiveles() {
-  return state.data.niveles.length;
-}
+function nivelActual() { return state.data.niveles[state.nivelActual]; }
+function totalNiveles() { return state.data.niveles.length; }
 
 // ---------------------------------------------------------------------------
-// arranque
+// Arranque
 // ---------------------------------------------------------------------------
 async function init() {
   state.data = await loadData();
   $("#btn-comenzar").addEventListener("click", comenzarJuego);
+
+  // Botón de sonido
+  const btnSonido = $("#btn-sonido");
+  if (btnSonido) {
+    btnSonido.addEventListener("click", () => {
+      state.sonidoActivo = !state.sonidoActivo;
+      btnSonido.textContent = state.sonidoActivo ? "🔊" : "🔇";
+      btnSonido.classList.toggle("muted", !state.sonidoActivo);
+    });
+  }
 }
 
 function setView(view) {
@@ -75,11 +117,10 @@ function setView(view) {
 }
 
 // ---------------------------------------------------------------------------
-// flujo del juego
+// Flujo del juego
 // ---------------------------------------------------------------------------
 function comenzarJuego() {
   state.nivelActual = 0;
-  state.victoriaTotal = false;
   iniciarNivel();
   setView("juego");
 }
@@ -102,9 +143,16 @@ function iniciarNivel() {
 
 function renderDragonPanel() {
   const nivel = nivelActual();
-  $("#dragon-glyph").textContent = nivel.glyph;
+  const dragonGlyph = $("#dragon-glyph");
+  dragonGlyph.textContent = nivel.glyph;
   $("#dragon-name").textContent = nivel.nombre;
   $("#dragon-genre").textContent = `Nivel ${state.nivelActual + 1} de ${totalNiveles()}`;
+
+  // El dragón cambia de expresión según sus escamas
+  if (state.escamas <= 0) dragonGlyph.textContent = "💀";
+  else if (state.escamas === 1) dragonGlyph.textContent = "😡";
+  else if (state.escamas === 2) dragonGlyph.textContent = "😠";
+  else dragonGlyph.textContent = nivel.glyph;
 
   const escamasEl = $("#escamas");
   escamasEl.innerHTML = "";
@@ -128,20 +176,37 @@ function renderJugadorPanel() {
   $("#progreso").textContent = `Nivel ${state.nivelActual + 1} / ${totalNiveles()}`;
 }
 
+// ---------------------------------------------------------------------------
+// Barajado aleatorio de opciones
+// ---------------------------------------------------------------------------
+function shuffleArray(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 function siguientePregunta() {
   const nivel = nivelActual();
   const total = nivel.preguntas.length;
-  if (state.preguntasUsadas.length >= total) {
-    // No debería pasar: el nivel se gana antes. Pero por seguridad:
-    return;
-  }
+  if (state.preguntasUsadas.length >= total) return;
+
   let idx;
-  do {
-    idx = Math.floor(Math.random() * total);
-  } while (state.preguntasUsadas.includes(idx));
+  do { idx = Math.floor(Math.random() * total); }
+  while (state.preguntasUsadas.includes(idx));
   state.preguntasUsadas.push(idx);
 
   state.preguntaActual = nivel.preguntas[idx];
+
+  // Barajar opciones y recalcular cuál es la correcta
+  const originales = state.preguntaActual.opciones;
+  const correctaTexto = originales[state.preguntaActual.correcta];
+  const barajadas = shuffleArray(originales);
+  state.opcionesBarajadas = barajadas;
+  state.indiceCorrectoBarajado = barajadas.indexOf(correctaTexto);
+
   state.respondiendo = false;
   renderPregunta();
 }
@@ -152,7 +217,7 @@ function renderPregunta() {
 
   const cont = $("#opciones");
   cont.innerHTML = "";
-  p.opciones.forEach((texto, i) => {
+  state.opcionesBarajadas.forEach((texto, i) => {
     const btn = document.createElement("button");
     btn.className = "opcion";
     btn.textContent = texto;
@@ -161,28 +226,34 @@ function renderPregunta() {
   });
 }
 
+// ---------------------------------------------------------------------------
+// Responder
+// ---------------------------------------------------------------------------
 async function responder(indiceElegido, btnElegido) {
   if (state.respondiendo) return;
   state.respondiendo = true;
 
-  const p = state.preguntaActual;
-  const acierto = indiceElegido === p.correcta;
+  const acierto = indiceElegido === state.indiceCorrectoBarajado;
 
-  // Marcar visualmente
   const botones = $$("#opciones .opcion");
   botones.forEach((b, i) => {
     b.disabled = true;
-    if (i === p.correcta) b.classList.add("correcta");
+    if (i === state.indiceCorrectoBarajado) b.classList.add("correcta");
     else if (i === indiceElegido) b.classList.add("incorrecta");
   });
 
   if (acierto) {
     state.escamas--;
+    playSound("acierto");
+    shakeDragon();
+    spawnFloater("-1 🛡️");
     $("#feedback").textContent = "¡Correcto! El dragón pierde una escama.";
     $("#feedback").className = "feedback acierto";
     renderDragonPanel();
   } else {
     state.pergaminos--;
+    playSound("fallo");
+    shakeScreen();
     $("#feedback").textContent = "Incorrecto. Pierdes un pergamino.";
     $("#feedback").className = "feedback fallo";
     renderJugadorPanel();
@@ -190,8 +261,8 @@ async function responder(indiceElegido, btnElegido) {
 
   await sleep(1400);
 
-  // Comprobar fin de nivel o derrota
   if (state.escamas <= 0) {
+    playSound("victoria");
     nivelSuperado();
     return;
   }
@@ -205,14 +276,43 @@ async function responder(indiceElegido, btnElegido) {
   siguientePregunta();
 }
 
+// ---------------------------------------------------------------------------
+// Efectos visuales
+// ---------------------------------------------------------------------------
+function shakeDragon() {
+  const panel = $("#dragon-panel");
+  if (!panel) return;
+  panel.classList.remove("shake-dragon");
+  void panel.offsetWidth;
+  panel.classList.add("shake-dragon");
+}
+
+function shakeScreen() {
+  const arena = $(".arena");
+  if (!arena) return;
+  arena.classList.remove("shake-screen");
+  void arena.offsetWidth;
+  arena.classList.add("shake-screen");
+}
+
+function spawnFloater(texto) {
+  const panel = $("#dragon-panel");
+  if (!panel) return;
+  const f = document.createElement("div");
+  f.className = "floater-damage";
+  f.textContent = texto;
+  panel.appendChild(f);
+  setTimeout(() => f.remove(), 1100);
+}
+
+// ---------------------------------------------------------------------------
+// Fin de nivel / derrota / victoria
+// ---------------------------------------------------------------------------
 function nivelSuperado() {
   const nivel = nivelActual();
   const esUltimo = state.nivelActual >= totalNiveles() - 1;
 
-  if (esUltimo) {
-    victoriaFinal();
-    return;
-  }
+  if (esUltimo) { victoriaFinal(); return; }
 
   $("#pregunta-texto").textContent = "";
   $("#opciones").innerHTML = "";
@@ -256,5 +356,4 @@ function victoriaFinal() {
   });
 }
 
-// ---------------------------------------------------------------------------
 window.addEventListener("DOMContentLoaded", init);

@@ -12,6 +12,8 @@
 <body>
 <div class="app" role="main" aria-label="Dragones Literarios — juego de trivia literaria">
 
+  <button id="btn-sonido" title="Activar/desactivar sonido">🔊</button>
+
   <header class="masthead">
     <div>
       <h1>Dragones Literarios</h1>
@@ -26,6 +28,7 @@
       <h2>Ocho dragones. Ocho géneros literarios. Un solo guardián.</h2>
       <p class="lede">Cada dragón protege un género. Responde sus preguntas para arrebatarle sus escamas. Si fallas, pierdes pergaminos. Si pierdes todos, la Biblioteca te expulsa.</p>
       <button class="primary-btn" id="btn-comenzar">Comenzar aventura</button>
+      <a href="/draconomicon/" class="enlace-juego">⚔️ ¿Buscas combate? Prueba Draconomicón</a>
     </div>
   </section>
 
@@ -33,7 +36,6 @@
   <section class="view" id="view-juego">
     <div class="arena">
 
-      <!-- Dragón actual -->
       <div class="dragon-panel" id="dragon-panel">
         <div class="dragon-glyph" id="dragon-glyph">🐉</div>
         <div class="dragon-info">
@@ -43,24 +45,18 @@
         </div>
       </div>
 
-      <!-- Pregunta -->
       <div class="pregunta-panel">
         <div class="pregunta-texto" id="pregunta-texto">Cargando pregunta…</div>
         <div class="opciones" id="opciones"></div>
       </div>
 
-      <!-- Estado del jugador -->
       <div class="jugador-panel">
         <div class="pergaminos" id="pergaminos"></div>
         <div class="progreso" id="progreso">Nivel 1 / 8</div>
       </div>
 
-      <!-- Feedback -->
       <div class="feedback" id="feedback"></div>
-
-      <!-- Fin de nivel / juego -->
       <div id="end-panel"></div>
-
     </div>
   </section>
 
