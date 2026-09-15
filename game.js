@@ -1,8 +1,8 @@
 "use strict";
 
 /* ==========================================================================
-   DRAGONES LITERARIOS — motor del juego de trivia (v2.0)
-   Mejoras: barajado aleatorio de opciones, animaciones de daño, sonidos.
+   DRAGONES LITERARIOS — motor del juego de trivia (v2.1)
+   v2.1: imágenes reales de dragones + efectos + sonido + barajado.
    ========================================================================== */
 
 const FALLBACK_DATA = {
@@ -11,11 +11,22 @@ const FALLBACK_DATA = {
       id: "fantasia", nombre: "Dragón de Fantasía", glyph: "🐉", color: "#a5432c",
       preguntas: [
         { pregunta: "¿Quién escribió «El Hobbit»?", opciones: ["J.R.R. Tolkien", "C.S. Lewis", "J.K. Rowling", "George R.R. Martin"], correcta: 0 },
-        { pregunta: "¿Cómo se llama el dragón de «El Hobbit»?", opciones: ["Fafnir", "Smaug", "Ancalagon", "Vermithrax"], correcta: 1 },
-        { pregunta: "¿En qué libro aparece el león Aslan?", opciones: ["El Señor de los Anillos", "Las Crónicas de Narnia", "Harry Potter", "La Rueda del Tiempo"], correcta: 1 }
+        { pregunta: "¿Cómo se llama el dragón de «El Hobbit»?", opciones: ["Fafnir", "Smaug", "Ancalagon", "Vermithrax"], correcta: 1 }
       ]
     }
   ]
+};
+
+// Mapa de imágenes por id de nivel. Si un id no está aquí, se usa el emoji.
+const IMAGENES = {
+  fantasia: "imagenes/fantasia.jpg",
+  cienciaficcion: "imagenes/cienciaficcion.jpg",
+  terror: "imagenes/terror.jpg",
+  clasicos: "imagenes/clasicos.jpg",
+  poesia: "imagenes/poesia.jpg",
+  teatro: "imagenes/teatro.jpg",
+  misterio: "imagenes/misterio.jpg",
+  cosmico: "imagenes/cosmico.jpg"
 };
 
 const state = {
@@ -36,7 +47,7 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
 
 // ---------------------------------------------------------------------------
-// Audio (generado con Web Audio API, sin archivos externos)
+// Audio
 // ---------------------------------------------------------------------------
 let audioCtx = null;
 function playSound(type) {
@@ -72,7 +83,7 @@ function playSound(type) {
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
       osc.start(now); osc.stop(now + 0.6);
     }
-  } catch (e) { /* silencio si falla audio */ }
+  } catch (e) { /* silencio */ }
 }
 
 // ---------------------------------------------------------------------------
@@ -93,6 +104,7 @@ async function loadData() {
 
 function nivelActual() { return state.data.niveles[state.nivelActual]; }
 function totalNiveles() { return state.data.niveles.length; }
+function imagenNivel(nivel) { return IMAGENES[nivel.id] || null; }
 
 // ---------------------------------------------------------------------------
 // Arranque
@@ -101,7 +113,6 @@ async function init() {
   state.data = await loadData();
   $("#btn-comenzar").addEventListener("click", comenzarJuego);
 
-  // Botón de sonido
   const btnSonido = $("#btn-sonido");
   if (btnSonido) {
     btnSonido.addEventListener("click", () => {
@@ -144,15 +155,28 @@ function iniciarNivel() {
 function renderDragonPanel() {
   const nivel = nivelActual();
   const dragonGlyph = $("#dragon-glyph");
-  dragonGlyph.textContent = nivel.glyph;
+  const img = imagenNivel(nivel);
+
+  dragonGlyph.innerHTML = "";
+
+  if (img) {
+    const imgEl = document.createElement("img");
+    imgEl.src = img;
+    imgEl.alt = nivel.nombre;
+    imgEl.className = "dragon-img";
+    if (state.escamas <= 0) imgEl.classList.add("ko");
+    else if (state.escamas === 1) imgEl.classList.add("herido-1");
+    else if (state.escamas === 2) imgEl.classList.add("herido-2");
+    dragonGlyph.appendChild(imgEl);
+  } else {
+    if (state.escamas <= 0) dragonGlyph.textContent = "💀";
+    else if (state.escamas === 1) dragonGlyph.textContent = "😡";
+    else if (state.escamas === 2) dragonGlyph.textContent = "😠";
+    else dragonGlyph.textContent = nivel.glyph;
+  }
+
   $("#dragon-name").textContent = nivel.nombre;
   $("#dragon-genre").textContent = `Nivel ${state.nivelActual + 1} de ${totalNiveles()}`;
-
-  // El dragón cambia de expresión según sus escamas
-  if (state.escamas <= 0) dragonGlyph.textContent = "💀";
-  else if (state.escamas === 1) dragonGlyph.textContent = "😡";
-  else if (state.escamas === 2) dragonGlyph.textContent = "😠";
-  else dragonGlyph.textContent = nivel.glyph;
 
   const escamasEl = $("#escamas");
   escamasEl.innerHTML = "";
@@ -177,7 +201,7 @@ function renderJugadorPanel() {
 }
 
 // ---------------------------------------------------------------------------
-// Barajado aleatorio de opciones
+// Barajado
 // ---------------------------------------------------------------------------
 function shuffleArray(arr) {
   const a = arr.slice();
@@ -200,7 +224,6 @@ function siguientePregunta() {
 
   state.preguntaActual = nivel.preguntas[idx];
 
-  // Barajar opciones y recalcular cuál es la correcta
   const originales = state.preguntaActual.opciones;
   const correctaTexto = originales[state.preguntaActual.correcta];
   const barajadas = shuffleArray(originales);
@@ -277,7 +300,7 @@ async function responder(indiceElegido, btnElegido) {
 }
 
 // ---------------------------------------------------------------------------
-// Efectos visuales
+// Efectos
 // ---------------------------------------------------------------------------
 function shakeDragon() {
   const panel = $("#dragon-panel");
