@@ -1,0 +1,217 @@
+{
+  "elementCycle": {
+    "description": "Rueda elemental: cada elemento es fuerte contra el siguiente y débil contra el anterior. El caos no sigue el ciclo: inflige y recibe daño aumentado frente a todos los elementos.",
+    "order": ["fuego", "tierra", "aire", "agua"],
+    "strongMultiplier": 1.4,
+    "weakMultiplier": 0.7,
+    "chaosOffense": 1.15,
+    "chaosDefense": 1.15
+  },
+  "elements": {
+    "fuego":  { "label": "Fuego",  "color": "#a5432c", "glyph": "🜂" },
+    "agua":   { "label": "Agua",   "color": "#2d6e6e", "glyph": "🜄" },
+    "tierra": { "label": "Tierra", "color": "#5c6b3a", "glyph": "🜃" },
+    "aire":   { "label": "Aire",   "color": "#5b6f96", "glyph": "🜁" },
+    "caos":   { "label": "Caos",   "color": "#6c4a8c", "glyph": "☯" }
+  },
+  "passives": {
+    "furia":       { "label": "Furia",       "description": "Su ataque aumenta un 25% mientras su vida esté por debajo del 50%." },
+    "resistencia": { "label": "Piel de Piedra", "description": "Reduce todo el daño recibido en un 15%." },
+    "regeneracion":{ "label": "Regeneración", "description": "Recupera el 6% de su vida máxima al inicio de cada uno de sus turnos." },
+    "vampirismo":  { "label": "Sed de Vida",  "description": "Cura el 25% del daño que inflige con ataques y habilidades." },
+    "contraataque":{ "label": "Guardián",     "description": "30% de probabilidad de contraatacar tras recibir un golpe básico." },
+    "evasion":     { "label": "Vuelo Élusivo","description": "15% de probabilidad de esquivar por completo cualquier ataque." }
+  },
+  "dragons": [
+    {
+      "id": "smaug",
+      "name": "Smaug",
+      "title": "El Desolador de Valle",
+      "origin": "«El Hobbit», J. R. R. Tolkien",
+      "culture": "Literatura británica del siglo XX",
+      "element": "fuego",
+      "glyph": "🐉",
+      "description": "El último gran dragón de la Tierra Media, dormido sobre una montaña de oro robado bajo la Montaña Solitaria.",
+      "stats": { "hp": 130, "attack": 30, "defense": 16, "speed": 11 },
+      "ability": {
+        "name": "Aliento de Erebor",
+        "description": "Una columna de fuego que funde el metal y deja el objetivo ardiendo.",
+        "power": 1.5,
+        "cooldown": 3,
+        "effect": { "type": "quemadura", "duration": 2, "dmg": 10 }
+      },
+      "passive": "furia"
+    },
+    {
+      "id": "ddraig_goch",
+      "name": "Y Ddraig Goch",
+      "title": "El Dragón Rojo",
+      "origin": "«Mabinogion», relatos galeses medievales",
+      "culture": "Mitología celta / gales",
+      "element": "fuego",
+      "glyph": "🐲",
+      "description": "El dragón rojo que combate bajo tierra contra el dragón blanco invasor; hoy emblema de Gales.",
+      "stats": { "hp": 122, "attack": 27, "defense": 19, "speed": 13 },
+      "ability": {
+        "name": "Rugido Escarlata",
+        "description": "Un bramido que incendia el terreno alrededor del enemigo.",
+        "power": 1.4,
+        "cooldown": 2,
+        "effect": { "type": "quemadura", "duration": 2, "dmg": 8 }
+      },
+      "passive": "resistencia"
+    },
+    {
+      "id": "orochi",
+      "name": "Yamata no Orochi",
+      "title": "La Serpiente de Ocho Cabezas",
+      "origin": "«Kojiki», crónicas japonesas del siglo VIII",
+      "culture": "Mitología japonesa",
+      "element": "agua",
+      "glyph": "🐍",
+      "description": "Bestia de ocho cabezas y ocho colas que exigía doncellas en tributo, embriagada y vencida con sake.",
+      "stats": { "hp": 138, "attack": 24, "defense": 15, "speed": 9 },
+      "ability": {
+        "name": "Embate de Ocho Cabezas",
+        "description": "Todas sus cabezas atacan a la vez, aturdiendo al rival.",
+        "power": 1.6,
+        "cooldown": 3,
+        "effect": { "type": "aturdir", "duration": 1 }
+      },
+      "passive": "regeneracion"
+    },
+    {
+      "id": "shenlong",
+      "name": "Shenlong",
+      "title": "El Dragón Divino de la Lluvia",
+      "origin": "Mitología y folclore imperial chino",
+      "culture": "Mitología china",
+      "element": "agua",
+      "glyph": "🌊",
+      "description": "Señor de las nubes y la lluvia, venerado por traer las cosechas y castigar la sequía.",
+      "stats": { "hp": 115, "attack": 22, "defense": 20, "speed": 14 },
+      "ability": {
+        "name": "Lluvia Purificadora",
+        "description": "Invoca un aguacero sanador que restaura sus fuerzas.",
+        "power": 0,
+        "cooldown": 3,
+        "effect": { "type": "curacion", "amount": 30 }
+      },
+      "passive": "resistencia"
+    },
+    {
+      "id": "fafnir",
+      "name": "Fafnir",
+      "title": "El Guardián de la Codicia",
+      "origin": "«Saga Völsunga», Eddas nórdicas",
+      "culture": "Mitología nórdica",
+      "element": "tierra",
+      "glyph": "🐊",
+      "description": "Un enano transformado en dragón por su propia avaricia, custodio de un tesoro maldito.",
+      "stats": { "hp": 125, "attack": 26, "defense": 22, "speed": 8 },
+      "ability": {
+        "name": "Aliento Letal",
+        "description": "Un vapor tóxico que corroe lentamente a quien lo respira.",
+        "power": 1.2,
+        "cooldown": 2,
+        "effect": { "type": "veneno", "duration": 3, "dmg": 9 }
+      },
+      "passive": "vampirismo"
+    },
+    {
+      "id": "ladon",
+      "name": "Ladón",
+      "title": "El de las Cien Cabezas",
+      "origin": "Mitología griega (Hesíodo, Apolodoro)",
+      "culture": "Mitología griega",
+      "element": "tierra",
+      "glyph": "🐢",
+      "description": "Guardián incansable del jardín de las Hespérides y sus manzanas doradas.",
+      "stats": { "hp": 128, "attack": 23, "defense": 24, "speed": 10 },
+      "ability": {
+        "name": "Guardia de Cien Ojos",
+        "description": "Nunca duerme del todo: alza sus escamas en una muralla imposible de romper.",
+        "power": 0,
+        "cooldown": 3,
+        "effect": { "type": "escudo", "duration": 2, "reduction": 0.4 }
+      },
+      "passive": "contraataque"
+    },
+    {
+      "id": "quetzalcoatl",
+      "name": "Quetzalcóatl",
+      "title": "La Serpiente Emplumada",
+      "origin": "Tradición mesoamericana (náhuatl, maya)",
+      "culture": "Mitología mesoamericana",
+      "element": "aire",
+      "glyph": "🪶",
+      "description": "Dios-dragón del viento y el saber, mitad ave mitad serpiente, portador del conocimiento.",
+      "stats": { "hp": 112, "attack": 25, "defense": 16, "speed": 18 },
+      "ability": {
+        "name": "Viento de Plumas Sagradas",
+        "description": "Una corriente que desestabiliza al rival y merma su fuerza.",
+        "power": 1.3,
+        "cooldown": 2,
+        "effect": { "type": "debilitar", "stat": "attack", "duration": 2, "amount": 0.25 }
+      },
+      "passive": "evasion"
+    },
+    {
+      "id": "vritra",
+      "name": "Vritra",
+      "title": "El que Retiene las Aguas",
+      "origin": "«Rig Veda», himnos védicos",
+      "culture": "Mitología hindú",
+      "element": "aire",
+      "glyph": "🐫",
+      "description": "Serpiente cósmica de la sequía, enemigo eterno de Indra, que aprisiona los ríos del cielo.",
+      "stats": { "hp": 118, "attack": 28, "defense": 17, "speed": 12 },
+      "ability": {
+        "name": "Sequía Eterna",
+        "description": "Drena la humedad y la fuerza vital de su presa.",
+        "power": 1.4,
+        "cooldown": 3,
+        "effect": { "type": "debilitar", "stat": "defense", "duration": 2, "amount": 0.25 }
+      },
+      "passive": "vampirismo"
+    },
+    {
+      "id": "tiamat",
+      "name": "Tiamat",
+      "title": "La Madre del Caos",
+      "origin": "«Enuma Elish», poema babilónico",
+      "culture": "Mitología mesopotámica",
+      "element": "caos",
+      "glyph": "🐙",
+      "description": "Diosa primigenia del mar y el caos original, madre de monstruos y de los propios dioses.",
+      "stats": { "hp": 120, "attack": 32, "defense": 14, "speed": 15 },
+      "ability": {
+        "name": "Caos Primigenio",
+        "description": "Libera la furia sin forma de la creación misma.",
+        "power": 1.7,
+        "cooldown": 3,
+        "effect": { "type": "aturdir", "duration": 1 }
+      },
+      "passive": "furia"
+    },
+    {
+      "id": "nidhogg",
+      "name": "Nidhogg",
+      "title": "El Roedor de Raíces",
+      "origin": "«Edda poética», tradición nórdica",
+      "culture": "Mitología nórdica",
+      "element": "caos",
+      "glyph": "💀",
+      "description": "Devorador de cadáveres que roe sin descanso las raíces del fresno Yggdrasil.",
+      "stats": { "hp": 116, "attack": 27, "defense": 15, "speed": 16 },
+      "ability": {
+        "name": "Roer las Raíces",
+        "description": "Muerde los cimientos vitales del enemigo, pudriéndolo por dentro.",
+        "power": 1.3,
+        "cooldown": 2,
+        "effect": { "type": "veneno", "duration": 3, "dmg": 10 }
+      },
+      "passive": "evasion"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Draconomicón — Estrategia de Dragones</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app" role="main" aria-label="Draconómicon — juego de estrategia por turnos con dragones">
+
+  <header class="masthead">
+    <div>
+      <h1>Draconomicón</h1>
+      <div class="subtitle">Diez dragones de la literatura y la mitología universal, reunidos en un solo bestiario de guerra.</div>
+    </div>
+    <nav class="tabs">
+      <button data-view="bestiary" class="active">Bestiario</button>
+      <button data-view="team">Formar equipo</button>
+      <button data-view="battle" id="battle-tab" disabled>Batalla</button>
+    </nav>
+  </header>
+
+  <!-- ================= BESTIARIO ================= -->
+  <section class="view active" id="view-bestiary">
+    <p class="lede">Cada dragón proviene de una tradición literaria distinta — desde las Eddas nórdicas hasta el Kojiki japonés — y conserva su elemento, su don y su leyenda de origen.</p>
+    <div class="grid-cards" id="bestiary-grid"></div>
+  </section>
+
+  <!-- ================= EQUIPO ================= -->
+  <section class="view" id="view-team">
+    <p class="lede">Elige exactamente tres dragones para tu bando. Un rival aleatorio del bestiario se alzará para enfrentarte.</p>
+    <div class="team-status">
+      <div class="team-slots" id="team-slots"></div>
+      <button class="primary-btn" id="start-battle-btn" disabled>Comenzar batalla</button>
+    </div>
+    <div class="grid-cards" id="team-grid"></div>
+  </section>
+
+  <!-- ================= BATALLA ================= -->
+  <section class="view" id="view-battle">
+    <div class="arena">
+      <div class="battlefield">
+        <div class="roster-column">
+          <h3>Tu bando</h3>
+          <div id="col-player"></div>
+        </div>
+        <div class="roster-column">
+          <h3>Bando rival</h3>
+          <div id="col-ai"></div>
+        </div>
+      </div>
+      <div class="action-bar" id="action-bar"></div>
+      <div id="battle-end"></div>
+      <div class="battle-log" id="battle-log"></div>
+    </div>
+  </section>
+
+  <footer class="credits">Draconomicón — juego de estrategia por turnos. Datos de dragones en <code>dragons.json</code>, fácilmente ampliable.</footer>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>
