@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Dragones Literarios — Trivia de la Biblioteca Prohibida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app" role="main" aria-label="Dragones Literarios — juego de trivia literaria">
+
+  <header class="masthead">
+    <div>
+      <h1>Dragones Literarios</h1>
+      <div class="subtitle">Demuestra tu sabiduría. Derrota a los guardianes de la Biblioteca Prohibida.</div>
+    </div>
+  </header>
+
+  <!-- ================= INICIO ================= -->
+  <section class="view active" id="view-inicio">
+    <div class="inicio-panel">
+      <div class="inicio-dragon">🐉</div>
+      <h2>Ocho dragones. Ocho géneros literarios. Un solo guardián.</h2>
+      <p class="lede">Cada dragón protege un género. Responde sus preguntas para arrebatarle sus escamas. Si fallas, pierdes pergaminos. Si pierdes todos, la Biblioteca te expulsa.</p>
+      <button class="primary-btn" id="btn-comenzar">Comenzar aventura</button>
+    </div>
+  </section>
+
+  <!-- ================= JUEGO ================= -->
+  <section class="view" id="view-juego">
+    <div class="arena">
+
+      <!-- Dragón actual -->
+      <div class="dragon-panel" id="dragon-panel">
+        <div class="dragon-glyph" id="dragon-glyph">🐉</div>
+        <div class="dragon-info">
+          <div class="dragon-name" id="dragon-name">Dragón de Fantasía</div>
+          <div class="dragon-genre" id="dragon-genre">Nivel 1 de 8</div>
+          <div class="escamas" id="escamas"></div>
+        </div>
+      </div>
+
+      <!-- Pregunta -->
+      <div class="pregunta-panel">
+        <div class="pregunta-texto" id="pregunta-texto">Cargando pregunta…</div>
+        <div class="opciones" id="opciones"></div>
+      </div>
+
+      <!-- Estado del jugador -->
+      <div class="jugador-panel">
+        <div class="pergaminos" id="pergaminos"></div>
+        <div class="progreso" id="progreso">Nivel 1 / 8</div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="feedback" id="feedback"></div>
+
+      <!-- Fin de nivel / juego -->
+      <div id="end-panel"></div>
+
+    </div>
+  </section>
+
+  <footer class="credits">Dragones Literarios — trivia literaria. Banco de preguntas en <code>preguntas.json</code>, ampliable sin tocar el código.</footer>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+{
+  "niveles": [
+    {
+      "id": "fantasia",
+      "nombre": "Dragón de Fantasía",
+      "glyph": "🐉",
+      "color": "#a5432c",
+      "preguntas": [
+        { "pregunta": "¿Quién escribió «El Hobbit»?", "opciones": ["J.R.R. Tolkien", "C.S. Lewis", "J.K. Rowling", "George R.R. Martin"], "correcta": 0 },
+        { "pregunta": "¿Cómo se llama el dragón de «El Hobbit»?", "opciones": ["Fafnir", "Smaug", "Ancalagon", "Vermithrax"], "correcta": 1 },
+        { "pregunta": "¿En qué libro aparece el león Aslan?", "opciones": ["El Señor de los Anillos", "Las Crónicas de Narnia", "Harry Potter", "La Rueda del Tiempo"], "correcta": 1 },
+        { "pregunta": "¿Quién escribió «Juego de Tronos»?", "opciones": ["J.R.R. Tolkien", "George R.R. Martin", "Robert Jordan", "Brandon Sanderson"], "correcta": 1 },
+        { "pregunta": "¿Cómo se llama la escuela de magia de Harry Potter?", "opciones": ["Hogwarts", "Beauxbatons", "Durmstrang", "Ilvermorny"], "correcta": 0 }
+      ]
+    },
+    {
+      "id": "cienciaficcion",
+      "nombre": "Dragón de Ciencia Ficción",
+      "glyph": "🐲",
+      "color": "#2d6e6e",
+      "preguntas": [
+        { "pregunta": "¿Quién escribió «1984»?", "opciones": ["Aldous Huxley", "Ray Bradbury", "George Orwell", "H.G. Wells"], "correcta": 2 },
+        { "pregunta": "¿Qué autor creó la saga «Fundación»?", "opciones": ["Isaac Asimov", "Arthur C. Clarke", "Philip K. Dick", "Robert Heinlein"], "correcta": 0 },
+        { "pregunta": "¿En qué novela los bomberos queman libros?", "opciones": ["Un mundo feliz", "Fahrenheit 451", "1984", "La naranja mecánica"], "correcta": 1 },
+        { "pregunta": "¿Quién escribió «Dune»?", "opciones": ["Frank Herbert", "Isaac Asimov", "Ursula K. Le Guin", "Orson Scott Card"], "correcta": 0 },
+        { "pregunta": "¿Qué autor escribió «El hombre en el castillo»?", "opciones": ["Philip K. Dick", "Ray Bradbury", "William Gibson", "Neal Stephenson"], "correcta": 0 }
+      ]
+    },
+    {
+      "id": "terror",
+      "nombre": "Dragón de Terror",
+      "glyph": "🐍",
+      "color": "#5c6b3a",
+      "preguntas": [
+        { "pregunta": "¿Quién escribió «El cuervo»?", "opciones": ["Edgar Allan Poe", "H.P. Lovecraft", "Mary Shelley", "Bram Stoker"], "correcta": 0 },
+        { "pregunta": "¿Qué autor creó a Cthulhu?", "opciones": ["Edgar Allan Poe", "H.P. Lovecraft", "Stephen King", "Clive Barker"], "correcta": 1 },
+        { "pregunta": "¿Quién escribió «Frankenstein»?", "opciones": ["Bram Stoker", "Mary Shelley", "Edgar Allan Poe", "Ann Radcliffe"], "correcta": 1 },
+        { "pregunta": "¿Quién escribió «Drácula»?", "opciones": ["Mary Shelley", "Bram Stoker", "Edgar Allan Poe", "H.P. Lovecraft"], "correcta": 1 },
+        { "pregunta": "¿Quién escribió «El resplandor»?", "opciones": ["Stephen King", "Clive Barker", "Dean Koontz", "Anne Rice"], "correcta": 0 }
+      ]
+    },
+    {
+      "id": "clasicos",
+      "nombre": "Dragón de Clásicos",
+      "glyph": "🌊",
+      "color": "#5b6f96",
+      "preguntas": [
+        { "pregunta": "¿Quién escribió «Don Quijote de la Mancha»?", "opciones": ["Miguel de Cervantes", "Lope de Vega", "Francisco de Quevedo", "Calderón de la Barca"], "correcta": 0 },
+        { "pregunta": "¿Quién escribió «Romeo y Julieta»?", "opciones": ["William Shakespeare", "Christopher Marlowe", "John Milton", "Oscar Wilde"], "correcta": 0 },
+        { "pregunta": "¿Quién escribió «Crimen y castigo»?", "opciones": ["León Tolstói", "Fiódor Dostoyevski", "Antón Chéjov", "Iván Turguénev"], "correcta": 1 },
+        { "pregunta": "¿Quién escribió «Orgullo y prejuicio»?", "opciones": ["Jane Austen", "Emily Brontë", "Charlotte Brontë", "Virginia Woolf"], "correcta": 0 },
+        { "pregunta": "¿Quién escribió «La metamorfosis»?", "opciones": ["Franz Kafka", "James Joyce", "Marcel Proust", "Thomas Mann"], "correcta": 0 }
+      ]
+    },
+    {
+      "id": "poesia",
+      "nombre": "Dragón de Poesía",
+      "glyph": "🪶",
+      "color": "#6c4a8c",
+      "preguntas": [
+        { "pregunta": "¿Quién escribió «Veinte poemas de amor y una canción desesperada»?", "opciones": ["Pablo Neruda", "Federico García Lorca", "Gustavo Adolfo Bécquer", "Octavio Paz"], "correcta": 0 },
+        { "pregunta": "¿Quién escribió «Romancero gitano»?", "opciones": ["Federico García Lorca", "Antonio Machado", "Juan Ramón Jiménez", "Rafael Alberti"], "correcta": 0 },
+        { "pregunta": "¿Quién escribió «Rimas y leyendas»?", "opciones": ["Gustavo Adolfo Bécquer", "Rosalía de Castro", "José de Espronceda", "Duque de Rivas"], "correcta": 0 },
+        { "pregunta": "¿Quién escribió «Las flores del mal»?", "opciones": ["Charles Baudelaire", "Arthur Rimbaud", "Paul Verlaine", "Stéphane Mallarmé"], "correcta": 0 },
+        { "pregunta": "¿Quién escribió «Hojas de hierba»?", "opciones": ["Walt Whitman", "Emily Dickinson", "Edgar Allan Poe", "Henry Wadsworth Longfellow"], "correcta": 0 }
+      ]
+    },
+    {
+      "id": "teatro",
+      "nombre": "Dragón de Teatro",
+      "glyph": "🎭",
+      "color": "#8c5a4a",
+      "preguntas": [
+        { "pregunta": "¿Quién escribió «Edipo Rey»?", "opciones": ["Sófocles", "Eurípides", "Esquilo", "Aristófanes"], "correcta": 0 },
+        { "pregunta": "¿Quién escribió «Fuenteovejuna»?", "opciones": ["Lope de Vega", "Calderón de la Barca", "Tirso de Molina", "Miguel de Cervantes"], "correcta": 0 },
+        { "pregunta": "¿Quién escribió «Esperando a Godot»?", "opciones": ["Samuel Beckett", "Eugène Ionesco", "Jean-Paul Sartre", "Albert Camus"], "correcta": 0 },
+        { "pregunta": "¿Quién escribió «La casa de Bernarda Alba»?", "opciones": ["Federico García Lorca", "Ramón María del Valle-Inclán", "Antonio Buero Vallejo", "Jacinto Benavente"], "correcta": 0 },
+        { "pregunta": "¿Quién escribió «Hamlet»?", "opciones": ["William Shakespeare", "Christopher Marlowe", "Ben Jonson", "John Webster"], "correcta": 0 }
+      ]
+    },
+    {
+      "id": "misterio",
+      "nombre": "Dragón de Misterio",
+      "glyph": "🔍",
+      "color": "#4a6c8c",
+      "preguntas": [
+        { "pregunta": "¿Quién escribió «Asesinato en el Orient Express»?", "opciones": ["Agatha Christie", "Arthur Conan Doyle", "Raymond Chandler", "Dashiell Hammett"], "correcta": 0 },
+        { "pregunta": "¿Quién creó al detective Sherlock Holmes?", "opciones": ["Arthur Conan Doyle", "Agatha Christie", "Edgar Allan Poe", "Georges Simenon"], "correcta": 0 },
+        { "pregunta": "¿Quién escribió «El halcón maltés»?", "opciones": ["Dashiell Hammett", "Raymond Chandler", "James M. Cain", "Patricia Highsmith"], "correcta": 0 },
+        { "pregunta": "¿Quién escribió «El nombre de la rosa»?", "opciones": ["Umberto Eco", "Dan Brown", "Arturo Pérez-Reverte", "Javier Sierra"], "correcta": 0 },
+        { "pregunta": "¿Quién escribió «La chica del tren»?", "opciones": ["Paula Hawkins", "Gillian Flynn", "Ruth Ware", "Tana French"], "correcta": 0 }
+      ]
+    },
+    {
+      "id": "cosmico",
+      "nombre": "Dragón Cósmico",
+      "glyph": "🌌",
+      "color": "#c9a15a",
+      "preguntas": [
+        { "pregunta": "¿Quién escribió «Cien años de soledad»?", "opciones": ["Gabriel García Márquez", "Julio Cortázar", "Mario Vargas Llosa", "Jorge Luis Borges"], "correcta": 0 },
+        { "pregunta": "¿Quién escribió «La Odisea»?", "opciones": ["Homero", "Virgilio", "Sófocles", "Hesíodo"], "correcta": 0 },
+        { "pregunta": "¿Quién escribió «En busca del tiempo perdido»?", "opciones": ["Marcel Proust", "James Joyce", "Franz Kafka", "Virginia Woolf"], "correcta": 0 },
+        { "pregunta": "¿Quién escribió «El amor en los tiempos del cólera»?", "opciones": ["Gabriel García Márquez", "Isabel Allende", "Laura Esquivel", "Carlos Fuentes"], "correcta": 0 },
+        { "pregunta": "¿Quién escribió «Ficciones»?", "opciones": ["Jorge Luis Borges", "Julio Cortázar", "Adolfo Bioy Casares", "Ernesto Sabato"], "correcta": 0 }
+      ]
+    }
+  ]
+}
